@@ -1,0 +1,37 @@
+# Decrypting the message using RSA algorithm
+
+def decrypt(message, e, p, q):
+  """
+  Decrypt a message using the RSA algorithm.
+
+  Args:
+    message: The encrypted message as a list of integers.
+    e: The public exponent.
+    p: The first prime number used in the key generation.
+    q: The second prime number used in the key generation.
+
+  Returns:
+    The decrypted message as a string.
+  """
+
+  n = p * q  # Calculate the modulus
+  phi_n = (p - 1) * (q - 1)  # Calculate phi(n)
+
+  # Calculate the modular inverse of e modulo phi(n)
+  d = pow(e, -1, phi_n)
+
+  # Decrypt the message by raising each element to the power of d modulo n
+  decrypted_message = [pow(m, d, n) for m in message]
+
+  # Convert the decrypted message from integers to characters
+  return ''.join(chr(c) for c in decrypted_message)
+
+# Define the encrypted message, public key, and prime numbers
+encrypted_message = []
+public_exponent = 3
+prime_1 = 3
+prime_2 = 11
+
+# Decrypt the message and print the result
+decrypted_message = decrypt(encrypted_message, public_exponent, prime_1, prime_2)
+print(decrypted_message.upper())
